@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    body{
+        width: 100%;
+        height: 740px;
+    }
+
+    #compass{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #000;
+        color: red;
+        background-color: aqua;
+        line-height: 20px;
+    }
+
+    #compass .pointer {
+        width: 350px;
+        height: 20px;
+        background: rgba(255, 255, 255, 10%);
+        position: absolute;
+        top: 350px;
+        left: 53.5%;
+        z-index: 999;
+        border-radius: 100px;
+        box-shadow: 0 0 10px red;
+    }
+
+    #compass .clock {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        left: 30%;
+    }
+
+    #compass .clock .time {
+        width: 700px;
+        height: 700px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    #compass .clock .time:nth-of-type(1) {
+        transition: 1s linear;
+        box-shadow: 0 0 20px red;
+        border-radius: 50%;
+    }
+
+    #compass .clock .time:nth-of-type(2) {
+        width: 600px;
+        height: 600px;
+        top: 60px;
+        left: 60px;
+        transition: 1s linear;
+        box-shadow: 0 0 5px red;
+        border-radius: 50%;
+    }
+
+    #compass .clock .time:nth-of-type(3) {
+        width: 480px;
+        height: 480px;
+        top: 120px;
+        left: 120px;
+        transition: 1s linear;
+        box-shadow: 0 0 5px red;
+        border-radius: 50%;
+    }
+
+    #compass .clock .time:nth-of-type(4) {
+        width: 340px;
+        height: 340px;
+        top: 190px;
+        left: 190px;
+        transition: 1s linear;
+        box-shadow: 0 0 5px red;
+        border-radius: 50%;
+    }
+
+    #compass .clock .time:nth-of-type(5) {
+        width: 200px;
+        height: 200px;
+        top: 260px;
+        left: 260px;
+        transition: 1s linear;
+        box-shadow: 0 0 5px red;
+        border-radius: 50%;
+    }
+
+    #compass .clock .time .secondbox {
+        width: 350px;
+        height: 20px;
+        position: absolute;
+        top: 340px;
+        left: 350px;
+        transform-origin: left center;
+    }
+
+    #compass .clock .time .minutebox {
+        width: 300px;
+        height: 20px;
+        position: absolute;
+        top: 290px;
+        left: 300px;
+        transform-origin: left center;
+    }
+
+    #compass .clock .time .hourbox {
+        width: 240px;
+        height: 20px;
+        position: absolute;
+        top: 230px;
+        left: 240px;
+        transform-origin: left center;
+    }
+
+    #compass .clock .time .daybox {
+        width: 170px;
+        height: 20px;
+        position: absolute;
+        top: 160px;
+        left: 170px;
+        transform-origin: left center;
+    }
+
+    #compass .clock .time .monthbox {
+        width: 100px;
+        height: 20px;
+        position: absolute;
+        top: 90px;
+        left: 100px;
+        transform-origin: left center;
+    }
+
+</style>
+</head>
+<body>
+    <div id="compass">
+        <div class="pointer"></div>
+        <div class="clock">
+            <div class="time"></div>
+            <div class="time"></div>
+            <div class="time"></div>
+            <div class="time"></div>
+            <div class="time"></div>
+        </div>
+    </div>
+
+    <script>
+        var timeDiv = document.querySelectorAll('.time');
+
+        var numberString = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        var Months = [];
+        var Days = [];
+        var Hours = [];
+        var Minutes = [];
+        var Seconds = [];
+        var Numbers = [];
+
+        var secondCount = 60;
+        var minuteCount = 60;
+        var hourCount = 24;
+        var dayCount = getDaysInMonth();
+        var monthCount = 12;
+
+        function getDaysInMonth() {
+            const date = new Date();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            return daysInMonth;
+        }
+
+        DrawDialPlate();
+
+        function DrawDialPlate() {
+            for(var i = 0; i < secondCount; i++){
+                var secondBox = document.createElement('div');
+                secondBox.className = "secondbox"
+                var rotate = 'rotate(' + i * (360 / secondCount) + 'deg)'
+                secondBox.style.transform = rotate;
+                secondBox.innerText = i;
+                secondBox.style.textAlign = 'right';
+                secondBox.style.font = '20px Arial';
+                timeDiv[0].appendChild(secondBox);
+            }
+
+            for(var i = 0; i < minuteCount; i++){
+                var minuteBox = document.createElement('div');
+                minuteBox.className = "minutebox"
+                var rotate = 'rotate(' + i * (360 / minuteCount) + 'deg)'
+                minuteBox.style.transform = rotate;
+                minuteBox.innerText = i;
+                minuteBox.style.textAlign = 'right';
+                minuteBox.style.font = '21px Arial';
+                timeDiv[1].appendChild(minuteBox);
+            }
+
+            for(var i = 1; i <= hourCount; i++){
+                var hourBox = document.createElement('div');
+                hourBox.className = "hourbox"
+                var rotate = 'rotate(' + (i-1) * (360 / hourCount) + 'deg)'
+                hourBox.style.transform = rotate;
+                hourBox.innerText = i;
+                hourBox.style.textAlign = 'right';
+                hourBox.style.font = '22px Arial';
+                timeDiv[2].appendChild(hourBox);
+            }
+
+            /* 日 */
+            for (var i = 1; i <= dayCount; i++) {
+                var daybox = document.createElement("div");
+                daybox.className = "daybox";
+                var rotate = 'rotate(' + (i - 1) * (360 / dayCount) + 'deg)';
+                daybox.style.transform = rotate;
+                daybox.innerText = i;
+                daybox.style.textAlign = "right";
+                daybox.style.font = "15px 楷体";
+                timeDiv[3].appendChild(daybox);
+            }
+            /* 月 */
+            for (var i = 1; i <= monthCount; i++) {
+                var monthbox = document.createElement("div");
+                monthbox.className = "monthbox";
+                var rotate = 'rotate(' + (i - 1) * (360 / monthCount) + 'deg)';
+                monthbox.style.transform = rotate;
+                monthbox.innerText = i;
+                monthbox.style.textAlign = "right";
+                monthbox.style.font = "16px 楷体";
+                timeDiv[4].appendChild(monthbox);
+            }
+
+        }
+
+        var oldsecond = 0;
+        var oldminute = 0;
+        var oldhour = 0;
+        var olddate = 0;
+        var oldmonth = 0;
+
+        setInterval(function () {
+            var timeNow = new Date();
+            var month = timeNow.getMonth();
+            var date = timeNow.getDate();
+            var hour = timeNow.getHours();
+            var minute = timeNow.getMinutes();
+            var second = timeNow.getSeconds();
+            if (oldsecond % 60 != second % 60) {
+                oldsecond = second;
+            }
+            timeDiv[0].style.transform = 'rotate(' + (-oldsecond * (360 / secondCount)) + 'deg)';
+            oldsecond++;
+            if (oldminute != minute) {
+                oldminute = minute;
+                timeDiv[1].style.transform = 'rotate(' + (-oldminute * (360 / minuteCount)) + 'deg)';
+            }
+            if (oldhour != hour) {
+                oldhour = hour;
+                timeDiv[2].style.transform = 'rotate(' + (-(oldhour - 1) * (360 / hourCount)) + 'deg)';
+            }
+            if (olddate != date) {
+                olddate = date;
+                timeDiv[3].style.transform = 'rotate(' + (-(olddate - 1) * (360 / dayCount)) + 'deg)';
+            }
+            if (oldmonth != month) {
+                oldmonth = month;
+                timeDiv[4].style.transform = 'rotate(' + (-oldmonth * (360 / monthCount)) + 'deg)';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
